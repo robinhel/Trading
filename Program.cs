@@ -2,15 +2,21 @@
 using App;
 
 List<User> Users = new List<User>();
-List<Item> Items = new List<Item>();
+
+
+
+
+
+Users.Add(new User("test", "pass"));
 
 bool Running = true;
-User ActiveUser = null;
+User activeUser = null;
 
 while (Running)
 {
-    if (ActiveUser == null)
+    if (activeUser == null)//----------------------------------fist menu--------------------------------------
     {
+        Console.Clear();
         Console.WriteLine("---Terminal based trading Center---");
         Console.WriteLine("1. Create a new account");
         Console.WriteLine("2. Log in");
@@ -20,10 +26,15 @@ while (Running)
         switch (input)
         {
             case "1":           //--------------create account--------------
+                Console.Clear();
                 Console.WriteLine("---Create Account---\n");
+
+
+                Console.Clear();
                 Console.WriteLine("Username: ");
                 string C_username = Console.ReadLine();
 
+                Console.Clear();
                 Console.WriteLine("Password: ");
                 string C_password = Console.ReadLine();
 
@@ -35,24 +46,28 @@ while (Running)
 
             case "2":           //------------------log in-----------------
 
+                Console.Clear();
                 Console.WriteLine("---Log In---");
                 Console.WriteLine("Username: ");
                 string username = Console.ReadLine();
 
+                Console.Clear();
                 Console.WriteLine("Password: ");
                 string password = Console.ReadLine();
 
                 foreach (User user in Users)
                 {
-                    if (user.TryLogin(username, password))
+                    if (user.tryLogin(username, password))
                     {
-                        ActiveUser = user;
+                        activeUser = user;
                         Console.WriteLine("Login Succesfull!");
                         break;
                     }
                 }
                 break;
             case "3":
+
+                Console.Clear();
                 Console.WriteLine("Goodbye!");
                 Running = false;
 
@@ -60,42 +75,52 @@ while (Running)
 
         }
     }
-    else
+    else //------------------------------------------LOGGED IN MENU---------------------------------------------
     {
-        Console.WriteLine($"Welcome {ActiveUser.Name}!");
+        Console.Clear();
+        Console.WriteLine($"Welcome {activeUser.Name}!");
         Console.WriteLine("---Trading Center---");
         Console.WriteLine("1. Log out");
         Console.WriteLine("2. Add item");
-        Console.WriteLine("3. Add ");
+        Console.WriteLine("3. advertise an item");
         Console.WriteLine("4. Add ");
-        Console.WriteLine("5. Exit");
 
         string input = Console.ReadLine();
         switch (input)
         {
             case "1":           //--------------Log out--------------
+
+                Console.Clear();
                 Console.WriteLine("Logging out");
-                ActiveUser = null;
+                activeUser = null;
                 break;
 
 
             case "2": //------------------add Item------------------------
-
+                Console.Clear();
                 Console.WriteLine("---Add Item---");
-
                 Console.WriteLine("What would you like to add?");
                 string ItemName = Console.ReadLine();
 
                 Console.WriteLine("Description of the item:");
                 string ItemDescription = Console.ReadLine();
                 Item newItem = new Item(ItemName, ItemDescription);
-                Items.Add(newItem);
+                activeUser.addItem(newItem);
                 Console.WriteLine($"you Succesfully added {ItemName}");
 
 
                 break;
 
-            case "3":
+            case "3": //------------------------ADVETISEMENT----------------------------------
+
+                foreach (Item item in activeUser.Items)
+                {
+                    Console.WriteLine($"avalable items are {item.ItemName}");
+
+                }
+                Console.WriteLine("press ENTER to continue");
+                Console.ReadLine();
+
 
                 break;
 
@@ -104,11 +129,6 @@ while (Running)
                 break;
 
 
-            case "5":
-                Console.WriteLine("Goodbye!");
-                Running = false;
-
-                break;
 
         }
 
@@ -134,14 +154,13 @@ A user needs to be able to browse completed requests.
 
 under process----------------------------------------------------------------------------------------------------
 
-A user needs to be able to browse a list of other users items.
-
+A user needs to be able to upload information about the item they wish to trade.
 
 implemented features: --------------------------------------------------------------------------------------------
 A user needs to be able to register an account
 A user needs to be able to log in.
 A user needs to be able to log out.
-A user needs to be able to upload information about the item they wish to trade.
+A user needs to be able to browse a list of other users items.
 
 
 
