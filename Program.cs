@@ -62,7 +62,7 @@ while (Running)
     else
     {
         Console.WriteLine("---Welcome to the Trading Center---");
-        Console.WriteLine("1. ");
+        Console.WriteLine("1. Log out");
         Console.WriteLine("2. ");
         Console.WriteLine("3. Exit");
 
@@ -70,7 +70,9 @@ while (Running)
         switch (input)
         {
             case "1":           //--------------create account--------------
-
+                Console.WriteLine("Logging out");
+                ActiveUser = null;
+                break;
 
 
 
@@ -97,7 +99,6 @@ while (Running)
 Features
 The following features need to be implemented:------------------------------------------------------------------
 
-A user needs to be able to upload information about the item they wish to trade.
 A user needs to be able to browse a list of other users items.
 A user needs to be able to request a trade for other users items.
 A user needs to be able to browse trade requests.
@@ -107,13 +108,14 @@ A user needs to be able to browse completed requests.
 
 
 under process----------------------------------------------------------------------------------------------------
-A user needs to be able to log out.
 
+A user needs to be able to upload information about the item they wish to trade.
 
 
 implemented features: --------------------------------------------------------------------------------------------
 A user needs to be able to register an account
 A user needs to be able to log in.
+A user needs to be able to log out.
 
 
 
