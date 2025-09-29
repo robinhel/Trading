@@ -3,6 +3,7 @@ namespace App;
 class User
 {
     public string Name;
+    internal object items;
     string Password;
 
 
