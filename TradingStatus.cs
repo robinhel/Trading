@@ -1,21 +1,11 @@
-/*
+
 namespace App;
 
-class TradingStatus
+public enum TradingStatus
 {
 
-
-    public string Pending;
-    public string Denied;
-    public string Accepted;
-
-
-    public TradeStatus(string pending, string denied, string accepted)
-    {
-        Pending = pending;
-        Denied = denied;
-        Accepted = accepted;
-    }
+    Pending = 0,
+    Accepted = 1,
+    Denied = -1,
 
 }
-*/

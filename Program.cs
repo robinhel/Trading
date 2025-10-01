@@ -1,16 +1,16 @@
 ﻿using System.ComponentModel;
+using System.Security.AccessControl;
 using App;
 
 List<User> Users = new List<User>();
-
-
-
+var ADS = new Dictionary<string, List<object>>();
 
 
 Users.Add(new User("test", "pass"));
 
 bool Running = true;
 User activeUser = null;
+Trade marketplace = new Trade();
 
 while (Running)
 {
@@ -77,7 +77,6 @@ while (Running)
     }
     else //------------------------------------------LOGGED IN MENU---------------------------------------------
     {
-        Console.Clear();
         Console.WriteLine($"Welcome {activeUser.Name}!");
         Console.WriteLine("---Trading Center---");
         Console.WriteLine("1. Log out");
@@ -104,7 +103,7 @@ while (Running)
 
                 Console.WriteLine("Description of the item:");
                 string ItemDescription = Console.ReadLine();
-                Item newItem = new Item(ItemName, ItemDescription);
+                Item newItem = new Item(ItemName, ItemDescription, activeUser);
                 activeUser.addItem(newItem);
                 Console.WriteLine($"you Succesfully added {ItemName}");
 
@@ -112,14 +111,23 @@ while (Running)
                 break;
 
             case "3": //------------------------ADVETISEMENT----------------------------------
+                activeUser.addItem(new Item("bike", "blue", activeUser));
+                activeUser.addItem(new Item("xbox", "green", activeUser));
+                int i = 0;
+
 
                 foreach (Item item in activeUser.Items)
                 {
-                    Console.WriteLine($"avalable items are {item.ItemName}");
-
+                    Console.WriteLine($"avalable items are {i} {item.ItemName}");
+                    i++;
                 }
-                Console.WriteLine("press ENTER to continue");
-                Console.ReadLine();
+
+                Console.WriteLine("pick an index of the item you wish to publish");
+                int ItemIndex = Convert.ToInt32(Console.ReadLine());
+                marketplace.UploadItem(activeUser.Items[ItemIndex]);
+                marketplace.ShowItems();
+
+
 
 
                 break;
@@ -141,27 +149,27 @@ while (Running)
 
 
 
-/*
-Features
-The following features need to be implemented:------------------------------------------------------------------
+// /*
+// Features
+// The following features need to be implemented:------------------------------------------------------------------
 
-A user needs to be able to request a trade for other users items.
-A user needs to be able to browse trade requests.
-A user needs to be able to accept a trade request.
-A user needs to be able to deny a trade request.
-A user needs to be able to browse completed requests.
-
-
-under process----------------------------------------------------------------------------------------------------
-
-A user needs to be able to upload information about the item they wish to trade.
-
-implemented features: --------------------------------------------------------------------------------------------
-A user needs to be able to register an account
-A user needs to be able to log in.
-A user needs to be able to log out.
-A user needs to be able to browse a list of other users items.
+// A user needs to be able to browse trade requests.
+// A user needs to be able to accept a trade request.
+// A user needs to be able to deny a trade request.
+// A user needs to be able to browse completed requests.
 
 
+// under process----------------------------------------------------------------------------------------------------
 
-*/
+// A user needs to be able to request a trade for other users items.
+
+// implemented features: --------------------------------------------------------------------------------------------
+// A user needs to be able to register an account
+// A user needs to be able to log in.
+// A user needs to be able to log out.
+// A user needs to be able to browse a list of other users items.
+// A user needs to be able to upload information about the item they wish to trade.
+
+
+
+// */
