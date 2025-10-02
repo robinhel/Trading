@@ -5,25 +5,48 @@ class Trade
     public User Sender;
     public User Receiver;
     public TradingStatus Status;
-    public List<Item> Itemsfortrade = new List<Item>();
+    public Item ItemForTrade;
+    public Item OfferedItem;
 
 
-    public Trade(User sender, User receiver, List<Item>? itemsfortrade = null)
+    public Trade(User sender, User? receiver = null, Item? itemForTrade = null)
     {
         Sender = sender;
-        Receiver = receiver;
         Status = TradingStatus.Pending;
-        Itemsfortrade = itemsfortrade ?? new List<Item>();
+
+        // Om det inte finns någon receiver sätt den annars null
+        if (receiver != null)
+        {
+            Receiver = receiver;
+        }
+
+
+        // Lägg till item for trade om det finns
+        if (itemForTrade != null)
+        {
+            ItemForTrade = itemForTrade;
+        }
+
     }
 
     public void UploadItem(Item item)
     {
-        Itemsfortrade.Add(item);
+        if (item != null)
+        {
+            ItemForTrade = item;
+            Console.WriteLine($"Item {item.ItemName} added to trade");
+        }
+        else
+        {
+            Console.WriteLine("No item to add to trade");
+            return;
+        }
+
     }
 
-    public List<Item> GetAllItemsForTrade()
+    public Item GetItemForTrade()
     {
-        return Itemsfortrade;
+        return ItemForTrade;
     }
 
 }

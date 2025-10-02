@@ -6,7 +6,7 @@ List<User> Users = new List<User>();
 var ADS = new Dictionary<string, List<object>>();
 
 
-Users.Add(new User("test", "pass"));
+Users.Add(new User("a", "a"));
 
 bool Running = true;
 User activeUser = null;
@@ -84,7 +84,7 @@ while (Running)
         Console.WriteLine("2. Add item");
         Console.WriteLine("3. advertise an item");
         Console.WriteLine("4. Show items for trade ");
-        Console.WriteLine("5. ");
+        Console.WriteLine("5. requst trade");
         Console.WriteLine("6. ");
         Console.WriteLine("7. ");
         string input = Console.ReadLine();
@@ -132,35 +132,71 @@ while (Running)
                 // Skapa variabler för Trade object
                 User sender = activeUser;
                 User reciever = activeUser; // TODO: Behöver ändras till en reciever USER som finns.
-                Item itemsForTrade = activeUser.Items[ItemIndex]; // Är ingen lista, detta är ett Item object.
+                Item itemForTrade = activeUser.Items[ItemIndex]; // Är ingen lista, detta är ett Item object.
 
                 // Skapa ett object av Trade
-                Trade trade = new Trade(sender: sender, receiver: reciever, itemsfortrade: null);
-
-                Console.WriteLine($"itemsForTrade: {itemsForTrade.ItemName}");
-
-                // Lägg till item i Trade objectet
-                trade.UploadItem(itemsForTrade);
-
-                Console.WriteLine($"You have succesfully advertised {itemsForTrade.ItemName} for trade!");
-                Console.WriteLine($"Trade object looks like this: sender:{trade.Sender.Name} receiver:{trade.Receiver.Name} itemsfortrade:{trade.Itemsfortrade[0].ItemName} itemTradeStatus:{trade.Status}");
+                Trade trade = new Trade(sender: sender, itemForTrade: itemForTrade);
 
 
+                // Lägg till Trade object i marketplace listan
+                // Då blir denna trade synlig för andra users
+                // dvs den är "advertised"
+                marketplace.Add(trade);
+
+                Console.WriteLine($"You have succesfully advertised {trade.ItemForTrade.ItemName} for trade!");
+                Console.WriteLine($"Trade object looks like this: sender:{trade.Sender.Name}\nitemsfortrade:{trade.ItemForTrade.ItemName}\n itemTradeStatus:{trade.Status}");//TODO: fix trade.itemfortrade index . itemname
                 break;
 
             case "4":
-                // int ii = 0;
 
-                // List<Item> allItemsForSale = marketplace.GetAllItemsForTrade();
+                // Lista alla items som är tillgängliga för trade
+                // Dvs alla Trade object i marketplace listan
 
-                // foreach (Item itemForSale in allItemsForSale)
-                // {
-                //     Console.WriteLine($"Item: {itemForSale.ItemName} in pos: {ii}");
-                //     ii++;
-                // }
+
+                int ii = 0;
+                foreach (Trade TradeInList in marketplace)
+                {
+                    Console.WriteLine($"avalable items are {ii} {TradeInList.ItemForTrade.ItemName}");
+                    ii++;
+                }
 
                 break;
 
+            case "5"://-------------requst trade-----------------
+
+                if (marketplace.Count == 0)
+                {
+                    Console.WriteLine("No items available for trade.");
+                    break;
+                }
+
+                int iii = 0;
+                foreach (Trade TradeInList in marketplace)
+                {
+                    Console.WriteLine($"Item index: {iii}\nItem: {TradeInList.ItemForTrade.ItemName}\nOwner: {activeUser.Name}\nstatus: {TradeInList.Status}\n");
+                    iii++;
+                }
+                Console.WriteLine("\nPick Item index:");
+                int TradeIndex = Convert.ToInt32(Console.ReadLine());
+                Trade chosenTrade = marketplace[TradeIndex];
+
+
+                Console.WriteLine("Your Items avaliable for trading:");
+                for (int j = 0; j < activeUser.Items.Count; j++)
+                {
+                    Console.WriteLine($"Item index: {j}, Item Name: {activeUser.Items[j].ItemName}");
+                }
+                Console.WriteLine("Pick the index of the item you wish to send a trade Request for!");
+                int TradeRequistIndex = Convert.ToInt32(Console.ReadLine());
+
+                chosenTrade.Receiver = activeUser;
+                chosenTrade.OfferedItem = activeUser.Items[TradeRequistIndex];
+                chosenTrade.Status = TradingStatus.Pending;
+
+                Console.WriteLine($"You {activeUser.Name} requseted {chosenTrade.ItemForTrade.ItemName} for {activeUser.Items[TradeRequistIndex]}");
+                Console.ReadLine();
+                Console.WriteLine("Press enter to continue");
+                break;
 
 
         }
@@ -199,3 +235,5 @@ while (Running)
 
 
 // */
+
+//receiver:{trade.Receiver.Name}
