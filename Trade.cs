@@ -5,23 +5,25 @@ class Trade
     public User Sender;
     public User Receiver;
     public TradingStatus Status;
-    public List<Item> Itemsforsale = new List<Item>();
+    public List<Item> Itemsfortrade = new List<Item>();
 
 
+    public Trade(User sender, User receiver, List<Item>? itemsfortrade = null)
+    {
+        Sender = sender;
+        Receiver = receiver;
+        Status = TradingStatus.Pending;
+        Itemsfortrade = itemsfortrade ?? new List<Item>();
+    }
 
     public void UploadItem(Item item)
     {
-        Itemsforsale.Add(item);
+        Itemsfortrade.Add(item);
     }
-    public void ShowItems()
-    {
-        int x = 0;
-        foreach (Item i in Itemsforsale)
-        {
-            Console.WriteLine($"item for sale is {i.ItemName} index is {x}, Owner is {i.Owner.Name}");
-            x++;
-        }
 
+    public List<Item> GetAllItemsForTrade()
+    {
+        return Itemsfortrade;
     }
 
 }

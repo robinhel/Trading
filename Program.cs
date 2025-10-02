@@ -10,7 +10,8 @@ Users.Add(new User("test", "pass"));
 
 bool Running = true;
 User activeUser = null;
-Trade marketplace = new Trade();
+List<Trade> marketplace = new List<Trade>();
+
 
 while (Running)
 {
@@ -82,8 +83,10 @@ while (Running)
         Console.WriteLine("1. Log out");
         Console.WriteLine("2. Add item");
         Console.WriteLine("3. advertise an item");
-        Console.WriteLine("4. Add ");
-
+        Console.WriteLine("4. Show items for trade ");
+        Console.WriteLine("5. ");
+        Console.WriteLine("6. ");
+        Console.WriteLine("7. ");
         string input = Console.ReadLine();
         switch (input)
         {
@@ -103,19 +106,20 @@ while (Running)
 
                 Console.WriteLine("Description of the item:");
                 string ItemDescription = Console.ReadLine();
+
                 Item newItem = new Item(ItemName, ItemDescription, activeUser);
                 activeUser.addItem(newItem);
-                Console.WriteLine($"you Succesfully added {ItemName}");
 
+                Console.WriteLine($"you Succesfully added {ItemName}");
 
                 break;
 
             case "3": //------------------------ADVETISEMENT----------------------------------
                 activeUser.addItem(new Item("bike", "blue", activeUser));
                 activeUser.addItem(new Item("xbox", "green", activeUser));
+
+
                 int i = 0;
-
-
                 foreach (Item item in activeUser.Items)
                 {
                     Console.WriteLine($"avalable items are {i} {item.ItemName}");
@@ -124,15 +128,36 @@ while (Running)
 
                 Console.WriteLine("pick an index of the item you wish to publish");
                 int ItemIndex = Convert.ToInt32(Console.ReadLine());
-                marketplace.UploadItem(activeUser.Items[ItemIndex]);
-                marketplace.ShowItems();
 
+                // Skapa variabler för Trade object
+                User sender = activeUser;
+                User reciever = activeUser; // TODO: Behöver ändras till en reciever USER som finns.
+                Item itemsForTrade = activeUser.Items[ItemIndex]; // Är ingen lista, detta är ett Item object.
 
+                // Skapa ett object av Trade
+                Trade trade = new Trade(sender: sender, receiver: reciever, itemsfortrade: null);
+
+                Console.WriteLine($"itemsForTrade: {itemsForTrade.ItemName}");
+
+                // Lägg till item i Trade objectet
+                trade.UploadItem(itemsForTrade);
+
+                Console.WriteLine($"You have succesfully advertised {itemsForTrade.ItemName} for trade!");
+                Console.WriteLine($"Trade object looks like this: sender:{trade.Sender.Name} receiver:{trade.Receiver.Name} itemsfortrade:{trade.Itemsfortrade[0].ItemName} itemTradeStatus:{trade.Status}");
 
 
                 break;
 
             case "4":
+                // int ii = 0;
+
+                // List<Item> allItemsForSale = marketplace.GetAllItemsForTrade();
+
+                // foreach (Item itemForSale in allItemsForSale)
+                // {
+                //     Console.WriteLine($"Item: {itemForSale.ItemName} in pos: {ii}");
+                //     ii++;
+                // }
 
                 break;
 
@@ -162,6 +187,7 @@ while (Running)
 // under process----------------------------------------------------------------------------------------------------
 
 // A user needs to be able to request a trade for other users items.
+
 
 // implemented features: --------------------------------------------------------------------------------------------
 // A user needs to be able to register an account
