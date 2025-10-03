@@ -17,7 +17,7 @@ while (Running)
 {
     if (activeUser == null)//----------------------------------fist menu--------------------------------------
     {
-        Console.Clear();
+        //Console.Clear();
         Console.WriteLine("---Terminal based trading Center---");
         Console.WriteLine("1. Create a new account");
         Console.WriteLine("2. Log in");
@@ -82,11 +82,13 @@ while (Running)
         Console.WriteLine("---Trading Center---");
         Console.WriteLine("1. Log out");
         Console.WriteLine("2. Add item");
-        Console.WriteLine("3. advertise an item");
+        Console.WriteLine("3. remove item");
         Console.WriteLine("4. Show items for trade ");
         Console.WriteLine("5. requst trade");
-        Console.WriteLine("6. ");
-        Console.WriteLine("7. ");
+        Console.WriteLine("6. advertise an item");
+        Console.WriteLine("7. Remove advertisement");
+        //Console.WriteLine("7. ");
+        //Console.WriteLine("7. ");
         string input = Console.ReadLine();
         switch (input)
         {
@@ -114,7 +116,81 @@ while (Running)
 
                 break;
 
-            case "3": //------------------------ADVETISEMENT----------------------------------
+            case "3": //------------------------Remove item----------------------------------
+
+                Console.WriteLine("Wich item would you like to remove");
+                for (int j = 0; j < activeUser.Items.Count; j++)
+                {
+                    Console.WriteLine($"Item index: {j}, Item Name: {activeUser.Items[j].ItemName}");
+                }
+                Console.WriteLine("Pick the index of the item you wish to remove!");
+
+                // Vilket index i listan är det vi ska ta bort?
+                int removeItemIndex = Convert.ToInt32(Console.ReadLine());
+
+                // Ta bort från listan med index värdet som är valt
+                // Tar bort från Items listan för activeUser, inte vi klassens funktion.
+                activeUser.Items.RemoveAt(removeItemIndex);
+
+                Console.WriteLine($"Item in position {removeItemIndex} has been removed!");//ItemName[RemoveItemIndex] 
+                break;
+
+            case "4":
+
+                // Lista alla items som är tillgängliga för trade
+                // Dvs alla Trade object i marketplace listan
+                if (marketplace.Count == 0)
+                {
+                    Console.WriteLine("No items available for trade.");
+                    break;
+                }
+
+                int ii = 0;
+                foreach (Trade TradeInList in marketplace)
+                {
+                    Console.WriteLine($"avalable items are {ii} {TradeInList.ItemForTrade.ItemName}");
+                    ii++;
+                }
+
+                break;
+
+            case "5"://-------------requst trade-----------------
+
+                if (marketplace.Count == 0)
+                {
+                    Console.WriteLine("No items available for trade.");
+                    break;
+                }
+
+                int iii = 0;
+                foreach (Trade TradeInList in marketplace)
+                {
+                    Console.WriteLine($"Item index: {iii}\nItem: {TradeInList.ItemForTrade.ItemName}\nOwner: {TradeInList.Sender.Name}\nstatus: {TradeInList.Status}\n");
+                    iii++;
+                }
+                Console.WriteLine("\nPick Item index:");
+                int TradeIndex = Convert.ToInt32(Console.ReadLine());
+                Trade chosenTrade = marketplace[TradeIndex];
+
+                Console.WriteLine("Your Items avaliable for trading:");
+                for (int j = 0; j < activeUser.Items.Count; j++)
+                {
+                    Console.WriteLine($"Item index: {j}, Item Name: {activeUser.Items[j].ItemName}");
+                }
+                Console.WriteLine("Pick the index of the item you wish to send a trade Request for!");
+                int TradeRequistIndex = Convert.ToInt32(Console.ReadLine());
+
+                chosenTrade.Receiver = activeUser;
+                chosenTrade.OfferedItem = activeUser.Items[TradeRequistIndex];
+                chosenTrade.Status = TradingStatus.Pending;
+
+                Console.WriteLine($"You {activeUser.Name} requseted {chosenTrade.ItemForTrade.ItemName} for {marketplace[TradeIndex].OfferedItem.ItemName}");
+                Console.WriteLine("Press ENTER to continue");
+                Console.ReadLine();
+                break;
+
+            case "6":
+
                 activeUser.addItem(new Item("bike", "blue", activeUser));
                 activeUser.addItem(new Item("xbox", "green", activeUser));
 
@@ -147,62 +223,34 @@ while (Running)
                 Console.WriteLine($"Trade object looks like this: sender:{trade.Sender.Name}\nitemsfortrade:{trade.ItemForTrade.ItemName}\n itemTradeStatus:{trade.Status}");//TODO: fix trade.itemfortrade index . itemname
                 break;
 
-            case "4":
-
-                // Lista alla items som är tillgängliga för trade
-                // Dvs alla Trade object i marketplace listan
 
 
-                int ii = 0;
-                foreach (Trade TradeInList in marketplace)
+            case "7":
+                Console.WriteLine("Wich item would you like to remove from the marketplace");
+                for (int j = 0; j < marketplace.Count(); j++)
                 {
-                    Console.WriteLine($"avalable items are {ii} {TradeInList.ItemForTrade.ItemName}");
-                    ii++;
+                    Console.WriteLine($"Item index: {j}, Item Name: {marketplace[j].ItemForTrade.ItemName}");
                 }
+                Console.WriteLine("Pick the index of the item you wish to remove!");
+                int removeADIndex = Convert.ToInt32(Console.ReadLine());
 
+                marketplace.RemoveAt(removeADIndex);
+                Console.WriteLine($"Item in position {removeADIndex} has been removed!");
                 break;
 
-            case "5"://-------------requst trade-----------------
 
-                if (marketplace.Count == 0)
-                {
-                    Console.WriteLine("No items available for trade.");
-                    break;
-                }
+                /*                          case "6":
 
-                int iii = 0;
-                foreach (Trade TradeInList in marketplace)
-                {
-                    Console.WriteLine($"Item index: {iii}\nItem: {TradeInList.ItemForTrade.ItemName}\nOwner: {activeUser.Name}\nstatus: {TradeInList.Status}\n");
-                    iii++;
-                }
-                Console.WriteLine("\nPick Item index:");
-                int TradeIndex = Convert.ToInt32(Console.ReadLine());
-                Trade chosenTrade = marketplace[TradeIndex];
-
-
-                Console.WriteLine("Your Items avaliable for trading:");
-                for (int j = 0; j < activeUser.Items.Count; j++)
-                {
-                    Console.WriteLine($"Item index: {j}, Item Name: {activeUser.Items[j].ItemName}");
-                }
-                Console.WriteLine("Pick the index of the item you wish to send a trade Request for!");
-                int TradeRequistIndex = Convert.ToInt32(Console.ReadLine());
-
-                chosenTrade.Receiver = activeUser;
-                chosenTrade.OfferedItem = activeUser.Items[TradeRequistIndex];
-                chosenTrade.Status = TradingStatus.Pending;
-
-                Console.WriteLine($"You {activeUser.Name} requseted {chosenTrade.ItemForTrade.ItemName} for {activeUser.Items[TradeRequistIndex]}");
-                Console.ReadLine();
-                Console.WriteLine("Press enter to continue");
-                break;
+                                              break;
+                              */
 
 
         }
 
     }
 }
+
+
 
 
 
@@ -222,7 +270,6 @@ while (Running)
 
 // under process----------------------------------------------------------------------------------------------------
 
-// A user needs to be able to request a trade for other users items.
 
 
 // implemented features: --------------------------------------------------------------------------------------------
@@ -231,7 +278,9 @@ while (Running)
 // A user needs to be able to log out.
 // A user needs to be able to browse a list of other users items.
 // A user needs to be able to upload information about the item they wish to trade.
-
+// A user needs to be able to request a trade for other users items.
+// remove item
+// remove ad
 
 
 // */

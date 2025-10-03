@@ -18,7 +18,6 @@ class User
         Items.Add(item);
     }
 
-
     public bool tryLogin(string username, string password)
     {
         return username == Name && password == Password;
