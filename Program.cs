@@ -239,10 +239,11 @@ while (Running)
                 break;
 
 
-                /*                          case "6":
+            case "8":
 
-                                              break;
-                              */
+
+                break;
+
 
 
         }
@@ -262,7 +263,10 @@ while (Running)
 // Features
 // The following features need to be implemented:------------------------------------------------------------------
 
-// A user needs to be able to browse trade requests.
+//The program needs to save relevant data to the computers file system whenever a state change is made.
+//The program needs to be able to start and then automatically load all relevant data so it can function as if it was never closed.
+
+
 // A user needs to be able to accept a trade request.
 // A user needs to be able to deny a trade request.
 // A user needs to be able to browse completed requests.
@@ -270,7 +274,7 @@ while (Running)
 
 // under process----------------------------------------------------------------------------------------------------
 
-
+// A user needs to be able to browse trade requests.
 
 // implemented features: --------------------------------------------------------------------------------------------
 // A user needs to be able to register an account
