@@ -3,9 +3,9 @@ namespace App;
 
 public enum TradingStatus
 {
-
-    Pending = 0,
-    Accepted = 1,
+    StandBy = 0,
+    Pending = 1,
+    Accepted = 2,
     Denied = -1,
 
 }

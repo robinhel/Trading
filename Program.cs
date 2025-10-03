@@ -87,7 +87,7 @@ while (Running)
         Console.WriteLine("5. requst trade");
         Console.WriteLine("6. advertise an item");
         Console.WriteLine("7. Remove advertisement");
-        //Console.WriteLine("7. ");
+        Console.WriteLine("8. Review your trade requsts");
         //Console.WriteLine("7. ");
         string input = Console.ReadLine();
         switch (input)
@@ -207,7 +207,6 @@ while (Running)
 
                 // Skapa variabler för Trade object
                 User sender = activeUser;
-                User reciever = activeUser; // TODO: Behöver ändras till en reciever USER som finns.
                 Item itemForTrade = activeUser.Items[ItemIndex]; // Är ingen lista, detta är ett Item object.
 
                 // Skapa ett object av Trade
@@ -220,7 +219,7 @@ while (Running)
                 marketplace.Add(trade);
 
                 Console.WriteLine($"You have succesfully advertised {trade.ItemForTrade.ItemName} for trade!");
-                Console.WriteLine($"Trade object looks like this: sender:{trade.Sender.Name}\nitemsfortrade:{trade.ItemForTrade.ItemName}\n itemTradeStatus:{trade.Status}");//TODO: fix trade.itemfortrade index . itemname
+                Console.WriteLine($"Trade object looks like this: sender:{trade.Sender.Name}\nitemsfortrade:{trade.ItemForTrade.ItemName}");//TODO: fix trade.itemfortrade index . itemname
                 break;
 
 
@@ -240,6 +239,21 @@ while (Running)
 
 
             case "8":
+                Console.WriteLine("you have trade requst for your: ");
+                for (int j = 0; j < marketplace.Count(); j++)
+                {
+                    // Filtrera för att enbart se trade´s i pending status och trade requests där activeUser är mottagaren
+                    if (marketplace[j].Status == TradingStatus.Pending && marketplace[j].Sender.Name == activeUser.Name)
+                    {
+                        Console.WriteLine($"Item index: {j}, Item Name: {marketplace[j].ItemForTrade.ItemName}");
+                    }
+
+
+                    Console.ReadLine();
+
+                }
+
+
 
 
                 break;
@@ -274,7 +288,6 @@ while (Running)
 
 // under process----------------------------------------------------------------------------------------------------
 
-// A user needs to be able to browse trade requests.
 
 // implemented features: --------------------------------------------------------------------------------------------
 // A user needs to be able to register an account
@@ -285,6 +298,7 @@ while (Running)
 // A user needs to be able to request a trade for other users items.
 // remove item
 // remove ad
+// A user needs to be able to browse trade requests.
 
 
 // */
