@@ -82,14 +82,14 @@ while (Running)
         Console.WriteLine($"Welcome {activeUser.Name}!");
         Console.WriteLine("---Trading Center---");
         Console.WriteLine("1. Log out");
-        Console.WriteLine("2. Add item");
-        Console.WriteLine("3. remove item");
-        Console.WriteLine("4. Show items for trade ");
-        Console.WriteLine("5. requst trade");
-        Console.WriteLine("6. advertise an item");
-        Console.WriteLine("7. Remove advertisement");
-        Console.WriteLine("8. Review your trade requsts");
-        Console.WriteLine("9. Show completed trades");
+        Console.WriteLine("2. Add - item to inventory");
+        Console.WriteLine("3. remove  - item to inventory");
+        Console.WriteLine("4. Show - items for trade ");
+        Console.WriteLine("5. requst - items for trade");
+        Console.WriteLine("6. Add - item for trade");
+        Console.WriteLine("7. Remove - item from trade");
+        Console.WriteLine("8. Review - your trade requsts");
+        Console.WriteLine("9. Show - completed trades");
         //Console.WriteLine("7. ");
         string input = Console.ReadLine();
         switch (input)
@@ -170,6 +170,7 @@ while (Running)
                     Console.WriteLine($"Item index: {iii}\nItem: {TradeInList.ItemForTrade.ItemName}\nOwner: {TradeInList.Sender.Name}\nstatus: {TradeInList.Status}\n");
                     iii++;
                 }
+
                 Console.WriteLine("\nPick Item index:");
                 int TradeIndex = Convert.ToInt32(Console.ReadLine());
                 Trade chosenTrade = marketplace[TradeIndex];
@@ -246,7 +247,7 @@ while (Running)
                 for (int j = 0; j < marketplace.Count(); j++)
                 {
                     // Filtrera för att enbart se trade´s i pending status och trade requests där activeUser är mottagaren
-                    if (marketplace[j].Status == TradingStatus.Pending && marketplace[j].Receiver == activeUser)
+                    if (marketplace[j].Status == TradingStatus.Pending && marketplace[j].Sender == activeUser)
                     {
                         Console.WriteLine($"Item index: {j}, Item Name: {marketplace[j].ItemForTrade.ItemName}");
                         showAcceptDeny = true;
@@ -266,15 +267,28 @@ while (Running)
                     {
                         case "1":
                             Console.WriteLine($"You Accepted trade for {marketplace[tradeReqIndex].ItemForTrade.ItemName}.");
-                            marketplace[tradeReqIndex].Status = TradingStatus.Accepted;
 
+
+                            // ta bort items från gamla ägare
+                            marketplace[tradeReqIndex].Sender.Items.Remove(marketplace[tradeReqIndex].ItemForTrade);
+                            marketplace[tradeReqIndex].Receiver.Items.Remove(marketplace[tradeReqIndex].OfferedItem);
+
+                            // byt ägare
                             marketplace[tradeReqIndex].ItemForTrade.Owner = marketplace[tradeReqIndex].Receiver;
                             marketplace[tradeReqIndex].OfferedItem.Owner = marketplace[tradeReqIndex].Sender;
 
+                            // lägg till i nya ägares listor
+                            marketplace[tradeReqIndex].Receiver.Items.Add(marketplace[tradeReqIndex].ItemForTrade);
+                            marketplace[tradeReqIndex].Sender.Items.Add(marketplace[tradeReqIndex].OfferedItem);
+
+                            // ändra status till accepterad
+                            marketplace[tradeReqIndex].Status = TradingStatus.Accepted;
+
+                            // lägg till i färdiga trades lista
                             completedTrades.Add(marketplace[tradeReqIndex]);
+
+                            // ta bort anons
                             marketplace.RemoveAt(tradeReqIndex);
-
-
 
                             break;
                         case "2":
@@ -293,35 +307,26 @@ while (Running)
                 if (completedTrades.Count == 0)
                 {
                     Console.WriteLine("You have no completed trades");
+                    Console.WriteLine("Press ENTER to continue.");
+                    Console.ReadLine();
                     break;
                 }
                 else
                 {
                     for (int j = 0; j < completedTrades.Count(); j++)
                     {
-                        Console.WriteLine($"Item index: {j}, Item Name: {completedTrades[j].ItemForTrade.ItemName}");
+                        Console.WriteLine($"{completedTrades[j].Sender.Name} traded {completedTrades[j].ItemForTrade.ItemName} with {completedTrades[j].Receiver.Name} for {completedTrades[j].OfferedItem.ItemName}");
                     }
+                    Console.WriteLine("Press ENTER to continue.");
+                    Console.ReadLine();
                 }
-
                 break;
-
 
 
         }
 
     }
 }
-
-
-// 2 items ska byta ägare
-// anonsen ska tas bort
-// den ska läggas i en lista för trades som hänt
-// byta status
-
-/*
-offerend item till sender
-item for trade till receiver
-/*
 
 
 // /*
@@ -331,10 +336,6 @@ item for trade till receiver
 //The program needs to save relevant data to the computers file system whenever a state change is made.
 //The program needs to be able to start and then automatically load all relevant data so it can function as if it was never closed.
 
-
-// A user needs to be able to accept a trade request.
-// A user needs to be able to deny a trade request.
-// A user needs to be able to browse completed requests.
 
 
 // under process----------------------------------------------------------------------------------------------------
@@ -350,6 +351,10 @@ item for trade till receiver
 // remove item
 // remove ad
 // A user needs to be able to browse trade requests.
+// A user needs to be able to accept a trade request.
+// A user needs to be able to deny a trade request.
+// A user needs to be able to browse completed requests.
+
 
 
 // */
