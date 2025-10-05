@@ -89,6 +89,7 @@ while (Running)
         Console.WriteLine("6. advertise an item");
         Console.WriteLine("7. Remove advertisement");
         Console.WriteLine("8. Review your trade requsts");
+        Console.WriteLine("9. Show completed trades");
         //Console.WriteLine("7. ");
         string input = Console.ReadLine();
         switch (input)
@@ -287,6 +288,21 @@ while (Running)
                             break;
                     }
                 }
+                break;
+            case "9":
+                if (completedTrades.Count == 0)
+                {
+                    Console.WriteLine("You have no completed trades");
+                    break;
+                }
+                else
+                {
+                    for (int j = 0; j < completedTrades.Count(); j++)
+                    {
+                        Console.WriteLine($"Item index: {j}, Item Name: {completedTrades[j].ItemForTrade.ItemName}");
+                    }
+                }
+
                 break;
 
 
