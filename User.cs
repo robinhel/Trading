@@ -8,6 +8,7 @@ class User
 
     public List<Item> Items = new List<Item>();
 
+
     public User(string name, string password)
     {
         Name = name;

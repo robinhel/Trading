@@ -11,6 +11,7 @@ Users.Add(new User("a", "a"));
 bool Running = true;
 User activeUser = null;
 List<Trade> marketplace = new List<Trade>();
+List<Trade> completedTrades = new List<Trade>();
 
 
 while (Running)
@@ -191,8 +192,8 @@ while (Running)
 
             case "6":
 
-                activeUser.addItem(new Item("bike", "blue", activeUser));
-                activeUser.addItem(new Item("xbox", "green", activeUser));
+                //activeUser.addItem(new Item("bike", "blue", activeUser));
+                //activeUser.addItem(new Item("xbox", "green", activeUser));
 
 
                 int i = 0;
@@ -244,7 +245,7 @@ while (Running)
                 for (int j = 0; j < marketplace.Count(); j++)
                 {
                     // Filtrera för att enbart se trade´s i pending status och trade requests där activeUser är mottagaren
-                    if (marketplace[j].Status == TradingStatus.Pending && marketplace[j].Sender.Name == activeUser.Name)
+                    if (marketplace[j].Status == TradingStatus.Pending && marketplace[j].Receiver == activeUser)
                     {
                         Console.WriteLine($"Item index: {j}, Item Name: {marketplace[j].ItemForTrade.ItemName}");
                         showAcceptDeny = true;
@@ -265,11 +266,22 @@ while (Running)
                         case "1":
                             Console.WriteLine($"You Accepted trade for {marketplace[tradeReqIndex].ItemForTrade.ItemName}.");
                             marketplace[tradeReqIndex].Status = TradingStatus.Accepted;
+
                             marketplace[tradeReqIndex].ItemForTrade.Owner = marketplace[tradeReqIndex].Receiver;
+                            marketplace[tradeReqIndex].OfferedItem.Owner = marketplace[tradeReqIndex].Sender;
+
+                            completedTrades.Add(marketplace[tradeReqIndex]);
+                            marketplace.RemoveAt(tradeReqIndex);
+
+
+
                             break;
                         case "2":
+
                             Console.WriteLine($"You denied trade for {marketplace[tradeReqIndex].ItemForTrade.ItemName}.");
                             marketplace[tradeReqIndex].Status = TradingStatus.Denied;
+
+
                             break;
                         case "3":
                             break;
@@ -290,9 +302,10 @@ while (Running)
 // den ska läggas i en lista för trades som hänt
 // byta status
 
-
-
-
+/*
+offerend item till sender
+item for trade till receiver
+/*
 
 
 // /*
