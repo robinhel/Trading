@@ -239,23 +239,42 @@ while (Running)
 
 
             case "8":
-                Console.WriteLine("you have trade requst for your: ");
+                bool showAcceptDeny = false;
+                Console.WriteLine("trade requst for you: ");
                 for (int j = 0; j < marketplace.Count(); j++)
                 {
                     // Filtrera för att enbart se trade´s i pending status och trade requests där activeUser är mottagaren
                     if (marketplace[j].Status == TradingStatus.Pending && marketplace[j].Sender.Name == activeUser.Name)
                     {
                         Console.WriteLine($"Item index: {j}, Item Name: {marketplace[j].ItemForTrade.ItemName}");
+                        showAcceptDeny = true;
                     }
-
-
-                    Console.ReadLine();
-
                 }
 
-
-
-
+                if (showAcceptDeny)
+                {
+                    Console.WriteLine("Wich one of these would you like to handle?");
+                    int tradeReqIndex = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("What would you like to do with this one?");
+                    Console.WriteLine("1. Accept");
+                    Console.WriteLine("2. Deny");
+                    Console.WriteLine("3. Exit");
+                    string TradeInput = Console.ReadLine();
+                    switch (TradeInput)
+                    {
+                        case "1":
+                            Console.WriteLine($"You Accepted trade for {marketplace[tradeReqIndex].ItemForTrade.ItemName}.");
+                            marketplace[tradeReqIndex].Status = TradingStatus.Accepted;
+                            marketplace[tradeReqIndex].ItemForTrade.Owner = marketplace[tradeReqIndex].Receiver;
+                            break;
+                        case "2":
+                            Console.WriteLine($"You denied trade for {marketplace[tradeReqIndex].ItemForTrade.ItemName}.");
+                            marketplace[tradeReqIndex].Status = TradingStatus.Denied;
+                            break;
+                        case "3":
+                            break;
+                    }
+                }
                 break;
 
 
@@ -266,7 +285,10 @@ while (Running)
 }
 
 
-
+// 2 items ska byta ägare
+// anonsen ska tas bort
+// den ska läggas i en lista för trades som hänt
+// byta status
 
 
 
