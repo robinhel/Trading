@@ -12,7 +12,7 @@ class Trade
     public Trade(User sender, User? receiver = null, Item? itemForTrade = null)
     {
         Sender = sender;
-        Status = TradingStatus.StandBy;
+        Status = TradingStatus.ForSale;
 
         // Om det inte finns någon receiver sätt den annars null
         if (receiver != null)
