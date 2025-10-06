@@ -1,6 +1,6 @@
 namespace App;
 
-class Trade
+public class Trade
 {
     public User Sender;
     public User Receiver;

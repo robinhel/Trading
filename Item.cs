@@ -1,6 +1,6 @@
 namespace App;
 
-class Item
+public class Item
 {
     public string ItemName;
     public string Description;

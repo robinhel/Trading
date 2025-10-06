@@ -3,11 +3,6 @@ using System.Security.AccessControl;
 using App;
 
 List<User> Users = new List<User>();
-var ADS = new Dictionary<string, List<object>>();
-
-
-Users.Add(new User("a", "a"));
-
 bool Running = true;
 User activeUser = null;
 List<Trade> marketplace = new List<Trade>();
@@ -43,6 +38,8 @@ while (Running)
                 User newUser = new User(C_username, C_password);
                 Users.Add(newUser);
                 Console.WriteLine($"Account with Username: {C_username} has been created");
+
+                Helpers.SaveUsersToFile(Users);
 
                 break;
 
@@ -429,7 +426,6 @@ while (Running)
 
 // under process----------------------------------------------------------------------------------------------------
 
-//The program needs to save relevant data to the computers file system whenever a state change is made.
 //The program needs to be able to start and then automatically load all relevant data so it can function as if it was never closed.
 
 
@@ -446,6 +442,8 @@ while (Running)
 // A user needs to be able to accept a trade request.
 // A user needs to be able to deny a trade request.
 // A user needs to be able to browse completed requests.
+
+//The program needs to save relevant data to the computers file system whenever a state change is made.
 
 
 

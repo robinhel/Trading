@@ -1,18 +1,17 @@
 namespace App;
 
-class User
+public class User
 {
-    public string Name;
-    string Password;
-
-
-    public List<Item> Items = new List<Item>();
+    public string Name { get; set; }
+    public string Password { get; set; }
+    public List<Item> Items { get; set; }
 
 
     public User(string name, string password)
     {
         Name = name;
         Password = password;
+        Items = new List<Item>();
     }
     public void addItem(Item item)
     {
