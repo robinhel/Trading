@@ -1,7 +1,10 @@
 # Terminal Based Trading Center
 
-## Funktioner
+Ett program där användare kan byta föremål med varandra via terminalen.  
+Programmet hanterar konton, föremål, annonser och avslutade byten.
 
+
+## Funktioner
 
 - Skapa konto  
 - Logga in och logga ut  
@@ -30,3 +33,8 @@
 
 git bash
 dotnet run
+
+
+## Helpers
+- hanterar filinläsning och sparning.  
+- Alla förändringar sparas direkt.  

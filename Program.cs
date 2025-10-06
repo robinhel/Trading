@@ -34,6 +34,7 @@ while (Running)
                 Console.WriteLine("Password: ");
                 string C_password = Console.ReadLine();
 
+                //skapa ett nytt konto och lägga den i konto listan 
                 User newUser = new User(C_username, C_password);
                 Users.Add(newUser);
                 Console.WriteLine($"Account with Username: {C_username} has been created");
@@ -108,6 +109,7 @@ while (Running)
                 Console.WriteLine("Description of the item:");
                 string ItemDescription = Console.ReadLine();
 
+                //skapa item och lägga det i listan(kopplad till ägaren)
                 Item newItem = new Item(ItemName, ItemDescription, activeUser);
                 activeUser.addItem(newItem);
 
@@ -126,7 +128,7 @@ while (Running)
                     Console.ReadLine();
                     break;
                 }
-
+                //loopa alla items i andvändarens inventory
                 Console.WriteLine("Wich item would you like to remove");
                 for (int j = 0; j < activeUser.Items.Count; j++)
                 {
@@ -134,9 +136,9 @@ while (Running)
                 }
                 Console.WriteLine("Pick the index of the item you wish to remove!");
 
+
+
                 // Vilket index i listan är det vi ska ta bort?
-
-
                 if (int.TryParse(Console.ReadLine(), out int removeItemIndex))
                 {
 
@@ -158,8 +160,7 @@ while (Running)
 
             case "4":           //----------------------show items for trade-------------------------------
 
-                // Lista alla items som är tillgängliga för trade
-                // Dvs alla Trade object i marketplace listan
+
                 if (marketplace.Count == 0)
                 {
                     Console.WriteLine("No items available for trade.");
@@ -168,7 +169,8 @@ while (Running)
                     break;
 
                 }
-
+                // Lista alla items som är tillgängliga för trade
+                // Dvs alla Trade object i marketplace listan
                 int ii = 0;
                 foreach (Trade TradeInList in marketplace)
                 {
@@ -214,6 +216,7 @@ while (Running)
                     Console.WriteLine("Pick the index of the item you wish to send a trade Request for!");
                     int TradeRequistIndex = Convert.ToInt32(Console.ReadLine());
 
+                    //till dela all info för en anons
                     chosenTrade.Receiver = activeUser;
                     chosenTrade.OfferedItem = activeUser.Items[TradeRequistIndex];
                     chosenTrade.Status = TradingStatus.Pending;
@@ -300,6 +303,7 @@ while (Running)
                 if (int.TryParse(Console.ReadLine(), out int removeADIndex))
                 {
                     marketplace.RemoveAt(removeADIndex);
+                    //uppdatera minnes filen med borttagning
                     Helpers.SaveAdsToFile(marketplace);
 
                     Console.WriteLine($"Item in position {removeADIndex} has been removed!");
@@ -368,11 +372,13 @@ while (Running)
                                 // lägg till i färdiga trades lista
                                 completedTrades.Add(marketplace[tradeReqIndex]);
 
+                                // spara denna info i minnes filen för trades som hänt
                                 Helpers.SaveCompletedTradesToFile(completedTrades);
 
                                 // ta bort anons
                                 marketplace.RemoveAt(tradeReqIndex);
 
+                                //uppdatera minnesfilen för anonser
                                 Helpers.SaveAdsToFile(marketplace);
 
                                 Console.WriteLine("Press ENTER to continue");
@@ -382,6 +388,7 @@ while (Running)
 
                                 Console.WriteLine($"You denied trade for {marketplace[tradeReqIndex].ItemForTrade.ItemName}.");
                                 marketplace[tradeReqIndex].Status = TradingStatus.Denied;
+                                //uppdatera minnesfil för anonser
                                 Helpers.SaveAdsToFile(marketplace);
 
 
@@ -432,10 +439,6 @@ while (Running)
 // Features
 // The following features need to be implemented:------------------------------------------------------------------
 // under process----------------------------------------------------------------------------------------------------
-
-
-
-
 // implemented features: --------------------------------------------------------------------------------------------
 
 // A user needs to be able to register an account
@@ -450,9 +453,7 @@ while (Running)
 // A user needs to be able to accept a trade request.
 // A user needs to be able to deny a trade request.
 // A user needs to be able to browse completed requests.
-
 //The program needs to save relevant data to the computers file system whenever a state change is made.
-
 //The program needs to be able to start and then automatically load all relevant data so it can function as if it was never closed.
 
 

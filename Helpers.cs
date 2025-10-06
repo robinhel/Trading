@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public static class Helpers
 {
 
-
+    //spara data från listan till Json fil
     public static void SaveUsersToFile(List<User> users)
     {
         string root_path = ".";
@@ -17,6 +17,7 @@ public static class Helpers
         string serialized = JsonSerializer.Serialize(users);
         File.WriteAllText(path: users_path, contents: serialized);
     }
+
 
     public static List<User> LoadUsersFromFile()
     {
@@ -57,17 +58,13 @@ public static class Helpers
         string root_path = ".";
         string advertisements_path = $"{root_path}advertisements.json";
 
-        // Kolla om filen finns
         if (File.Exists(advertisements_path))
         {
-            // Läs in filen
             string json = File.ReadAllText(advertisements_path);
 
-            // Deserialisera JSON till en lista av User-objekt
             return JsonSerializer.Deserialize<List<Trade>>(json);
 
         }
-        // Om filen inte finns, returnera en tom lista
         else
         {
             return new List<Trade>();
@@ -92,17 +89,13 @@ public static class Helpers
         string root_path = ".";
         string completedTrades_path = $"{root_path}completedTrades.json";
 
-        // Kolla om filen finns
         if (File.Exists(completedTrades_path))
         {
-            // Läs in filen
             string json = File.ReadAllText(completedTrades_path);
 
-            // Deserialisera JSON till en lista av User-objekt
             return JsonSerializer.Deserialize<List<Trade>>(json);
 
         }
-        // Om filen inte finns, returnera en tom lista
         else
         {
             return new List<Trade>();
