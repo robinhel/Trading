@@ -2,11 +2,11 @@
 using System.Security.AccessControl;
 using App;
 
-List<User> Users = new List<User>();
+List<User> Users = Helpers.LoadUsersFromFile();
 bool Running = true;
 User activeUser = null;
-List<Trade> marketplace = new List<Trade>();
-List<Trade> completedTrades = new List<Trade>();
+List<Trade> marketplace = Helpers.LoadAdsFromFile();
+List<Trade> completedTrades = Helpers.LoadCompletedTradesFromFile();
 
 
 while (Running)
@@ -25,7 +25,6 @@ while (Running)
             case "1":           //--------------create account--------------
                 Console.Clear();
                 Console.WriteLine("---Create Account---\n");
-
 
                 Console.Clear();
                 Console.WriteLine("Username: ");
@@ -266,6 +265,9 @@ while (Running)
                     // dvs den är "advertised"
                     marketplace.Add(trade);
 
+                    Helpers.SaveAdsToFile(marketplace);
+
+
                     Console.WriteLine($"You have succesfully advertised {trade.ItemForTrade.ItemName} for trade!");
                     Console.WriteLine($"Trade object looks like this: sender:{trade.Sender.Name}\nitemsfortrade:{trade.ItemForTrade.ItemName}");//TODO: fix trade.itemfortrade index . itemname
                 }
@@ -282,7 +284,7 @@ while (Running)
             case "7":           //------------------------------remove advertisement----------------------------------
                 if (marketplace.Count == 0)
                 {
-                    Console.WriteLine("You have no advertised items");
+                    Console.WriteLine("YMarketplace is empty");
                     Console.WriteLine("Press ENTER to continue.");
                     Console.ReadLine();
                     break;
@@ -298,6 +300,8 @@ while (Running)
                 if (int.TryParse(Console.ReadLine(), out int removeADIndex))
                 {
                     marketplace.RemoveAt(removeADIndex);
+                    Helpers.SaveAdsToFile(marketplace);
+
                     Console.WriteLine($"Item in position {removeADIndex} has been removed!");
                 }
                 else
@@ -309,9 +313,9 @@ while (Running)
                 break;
 
             case "8":                   //---------------------------------------review trade requsts------------------------------
-                if (completedTrades.Count == 0)
+                if (marketplace.Count == 0)
                 {
-                    Console.WriteLine("You have no trade requsts");
+                    Console.WriteLine("Marketplace is empty");
                     Console.WriteLine("Press ENTER to continue.");
                     Console.ReadLine();
                     break;
@@ -364,8 +368,13 @@ while (Running)
                                 // lägg till i färdiga trades lista
                                 completedTrades.Add(marketplace[tradeReqIndex]);
 
+                                Helpers.SaveCompletedTradesToFile(completedTrades);
+
                                 // ta bort anons
                                 marketplace.RemoveAt(tradeReqIndex);
+
+                                Helpers.SaveAdsToFile(marketplace);
+
                                 Console.WriteLine("Press ENTER to continue");
                                 Console.ReadLine();
                                 break;
@@ -373,6 +382,8 @@ while (Running)
 
                                 Console.WriteLine($"You denied trade for {marketplace[tradeReqIndex].ItemForTrade.ItemName}.");
                                 marketplace[tradeReqIndex].Status = TradingStatus.Denied;
+                                Helpers.SaveAdsToFile(marketplace);
+
 
                                 Console.WriteLine("Press ENTER to continue");
                                 Console.ReadLine();
@@ -420,16 +431,13 @@ while (Running)
 // /*
 // Features
 // The following features need to be implemented:------------------------------------------------------------------
-
-
-
-
 // under process----------------------------------------------------------------------------------------------------
 
-//The program needs to be able to start and then automatically load all relevant data so it can function as if it was never closed.
+
 
 
 // implemented features: --------------------------------------------------------------------------------------------
+
 // A user needs to be able to register an account
 // A user needs to be able to log in.
 // A user needs to be able to log out.
@@ -445,6 +453,7 @@ while (Running)
 
 //The program needs to save relevant data to the computers file system whenever a state change is made.
 
+//The program needs to be able to start and then automatically load all relevant data so it can function as if it was never closed.
 
 
 // */

@@ -2,11 +2,11 @@ namespace App;
 
 public class Trade
 {
-    public User Sender;
-    public User Receiver;
-    public TradingStatus Status;
-    public Item ItemForTrade;
-    public Item OfferedItem;
+    public User Sender { get; set; }
+    public User Receiver { get; set; }
+    public TradingStatus Status { get; set; }
+    public Item ItemForTrade { get; set; }
+    public Item OfferedItem { get; set; }
 
 
     public Trade(User sender, User? receiver = null, Item? itemForTrade = null)

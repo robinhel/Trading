@@ -1,1 +1,15 @@
-[{"Name":"robin","Password":"pass","Items":[]}]
+[
+    {
+        "Name": "robin",
+        "Password": "pass",
+        "Items": [
+            {},
+            {}
+        ]
+    },
+    {
+        "Name": "test",
+        "Password": "test",
+        "Items": []
+    }
+]
